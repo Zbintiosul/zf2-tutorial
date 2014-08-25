@@ -1,0 +1,33 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: mracu
+ * Date: 8/22/14
+ * Time: 10:43 AM
+ */
+
+$title = 'My genres';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<p>
+    <a href="<?php echo $this->url('genre', array('action'=>'add'));?>">Add new genre</a>
+</p>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>&nbsp;</th>
+    </tr>
+    <?php foreach ($genres as $genre) : ?>
+        <tr>
+            <td><?php echo $this->escapeHtml($genre->name);?></td>
+            <td>
+                <a href="<?php echo $this->url('genre',
+                    array('action'=>'edit', 'id' => $genre->id));?>">Edit</a>
+                <a href="<?php echo $this->url('genre',
+                    array('action'=>'delete', 'id' => $genre->id));?>">Delete</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

@@ -2,6 +2,9 @@
 return array(
     // This should be an array of module namespaces used in the application.
     'modules' => array(
+        'ZendDeveloperTools',
+        'DoctrineModule',
+        'DoctrineORMModule',
         'Application',
         'Album',
     ),
@@ -16,6 +19,7 @@ return array(
             './module',
             './vendor',
         ),
+
 
         // An array of paths from which to glob configuration files after
         // modules are loaded. These effectively override configuration

@@ -1,7 +1,63 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mracu
- * Date: 8/22/14
- * Time: 10:27 AM
- */ 
+return array(
+    'controllers' => array(
+        'invokables' => array(
+            'Album\Controller\Album' => 'Album\Controller\AlbumController',
+            'Album\Controller\Genre' => 'Album\Controller\GenreController',
+        ),
+    ),
+
+    // The following section is new and should be added to your file
+    'router' => array(
+        'routes' => array(
+            'album' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/album[/][:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Album\Controller\Album',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+            'genre' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/genre[/][:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Album\Controller\Genre',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+        ),
+    ),
+
+
+    'view_manager' => array(
+        'template_path_stack' => array(
+            'album' => __DIR__ . '/../view',
+        ),
+    ),
+    'doctrine' => array(
+        'driver' => array(
+            'album_entities' => array(
+                'class' =>'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(__DIR__ . '/../src/Album/Entity')
+            ),
+
+            'orm_default' => array(
+                'drivers' => array(
+                    'Album\Entity' => 'album_entities'
+                )
+            ))),
+);
