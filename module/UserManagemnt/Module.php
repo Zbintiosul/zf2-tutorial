@@ -1,13 +1,11 @@
 <?php
 
-namespace Album;
+namespace User;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use Album\Model\Album;
-use Album\Model\AlbumTable;
-use Album\Model\Genre;
-use Album\Model\GenreTable;
+use User\Model\User;
+use User\Model\UserTable;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\Db\ResultSet\ResultSet;
@@ -41,28 +39,17 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
             'aliases' => array(),
 
             'factories' => array(
-                'Album\Model\AlbumTable' =>  function($sm) {
-                        $tableGateway = $sm->get('AlbumTableGateway');
+                'User\Model\UserTable' =>  function($sm) {
+                        $tableGateway = $sm->get('UserTableGateway');
                         $table = new AlbumTable($tableGateway);
                         return $table;
-                    },
-                'AlbumTableGateway' => function ($sm) {
+                },
+                'UserTableGateway' => function ($sm) {
                         $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                         $resultSetPrototype = new ResultSet();
                         $resultSetPrototype->setArrayObjectPrototype(new Album());
-                        return new TableGateway('album', $dbAdapter, null, $resultSetPrototype);
-                    },
-                'Album\Model\GenreTable' =>  function($sm) {
-                        $tableGateway = $sm->get('GenreTableGateway');
-                        $table = new GenreTable($tableGateway);
-                        return $table;
-                    },
-                'GenreTableGateway' => function ($sm) {
-                        $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-                        $resultSetPrototype = new ResultSet();
-                        $resultSetPrototype->setArrayObjectPrototype(new Genre());
-                        return new TableGateway('genres', $dbAdapter, null, $resultSetPrototype);
-                    },
+                        return new TableGateway('user', $dbAdapter, null, $resultSetPrototype);
+                },
             ),
         );
     }
