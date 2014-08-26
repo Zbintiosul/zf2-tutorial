@@ -12,20 +12,15 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class IndexController extends AbstractActionController
+class AuthController extends AbstractActionController
 {
-    public function indexAction()
+    public function LoginAction()
     {
-        $objectManager = $this
-            ->getServiceLocator()
-            ->get('Doctrine\ORM\EntityManager');
 
-        $user = new \Application\Entity\User();
-        $user->setFullName('Marco Pivetta');
+    }
 
-        $objectManager->persist($user);
-        $objectManager->flush();
+    public function RegisterAction()
+    {
 
-        die(var_dump($user->getId()));
     }
 }

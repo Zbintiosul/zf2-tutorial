@@ -15,7 +15,6 @@
 
      public function fetchAll(Array $columns = array('id','title', 'artist'))
      {
-         //$resultSet = $this->tableGateway->select();
          $sqlSelect = $this->tableGateway->getSql()->select();
          $sqlSelect->columns($columns);
          $sqlSelect->join('genres', 'album.genre_id = genres.id', array('genre'=>'name'), 'left');

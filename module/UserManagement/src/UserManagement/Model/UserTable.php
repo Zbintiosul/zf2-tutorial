@@ -4,7 +4,7 @@
 
  use Zend\Db\TableGateway\TableGateway;
 
- class AlbumTable
+ class UserTable
  {
      protected $tableGateway;
 
@@ -15,16 +15,13 @@
 
      public function fetchAll(Array $columns = array('id','title', 'artist'))
      {
-         $sqlSelect = $this->tableGateway->getSql()->select();
-         $sqlSelect->columns($columns);
-         $sqlSelect->join('genres', 'album.genre_id = genres.id', array('genre'=>'name'), 'left');
+         $sqlSelect = $this->tableGateway->select();
 
-         $resultSet = $this->tableGateway->selectWith($sqlSelect);
-         return $resultSet;
+         return $sqlSelect;
      }
 
 
-     public function getAlbum($id)
+     public function getUser($id)
      {
          $id  = (int) $id;
          $rowset = $this->tableGateway->select(array('id' => $id));
@@ -35,27 +32,27 @@
          return $row;
      }
 
-     public function saveAlbum(Album $album)
+     public function saveUser(User $user)
      {
          $data = array(
-             'artist' => $album->artist,
-             'title'  => $album->title,
-             'genre_id'  => $album->genre_id,
+             'artist' => $user->artist,
+             'title'  => $user->title,
+             'genre_id'  => $user->genre_id,
          );
 
-         $id = (int) $album->id;
+         $id = (int) $user->id;
          if ($id == 0) {
              $this->tableGateway->insert($data);
          } else {
-             if ($this->getAlbum($id)) {
+             if ($this->getUser($id)) {
                  $this->tableGateway->update($data, array('id' => $id));
              } else {
-                 throw new \Exception('Album id does not exist');
+                 throw new \Exception('User id does not exist');
              }
          }
      }
 
-     public function deleteAlbum($id)
+     public function deleteUser($id)
      {
          $this->tableGateway->delete(array('id' => (int) $id));
      }

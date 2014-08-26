@@ -1,11 +1,9 @@
 <?php
 
-namespace User;
+namespace Auth;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use User\Model\User;
-use User\Model\UserTable;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\Db\ResultSet\ResultSet;
@@ -39,17 +37,7 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
             'aliases' => array(),
 
             'factories' => array(
-                'User\Model\UserTable' =>  function($sm) {
-                        $tableGateway = $sm->get('UserTableGateway');
-                        $table = new AlbumTable($tableGateway);
-                        return $table;
-                },
-                'UserTableGateway' => function ($sm) {
-                        $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-                        $resultSetPrototype = new ResultSet();
-                        $resultSetPrototype->setArrayObjectPrototype(new Album());
-                        return new TableGateway('user', $dbAdapter, null, $resultSetPrototype);
-                },
+
             ),
         );
     }

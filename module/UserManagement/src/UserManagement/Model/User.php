@@ -6,22 +6,28 @@
  * Time: 10:47 AM
  */
 
-namespace Album\Model;
+namespace UserManagement\Model;
 
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
-class Genre implements InputFilterAwareInterface
+class User implements InputFilterAwareInterface
 {
     public $id;
-    public $name;
+    public $artist;
+    public $title;
+    public $genre_id;
+    public $genre;
     protected $inputFilter;
 
     public function exchangeArray($data)
     {
-        $this->id     = (!empty($data['id'])) ? $data['id'] : null;
-        $this->name = (!empty($data['name'])) ? $data['name'] : null;
+        $this->id        = (!empty($data['id'])) ? $data['id'] : null;
+        $this->artist    = (!empty($data['artist'])) ? $data['artist'] : null;
+        $this->title     = (!empty($data['title'])) ? $data['title'] : null;
+        $this->genre_id  = (!empty($data['genre_id'])) ? $data['genre_id'] : 0;
+        $this->genre     = (!empty($data['genre'])) ? $data['genre'] : 'None';
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)
@@ -43,7 +49,7 @@ class Genre implements InputFilterAwareInterface
             ));
 
             $inputFilter->add(array(
-                'name'     => 'name',
+                'name'     => 'artist',
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'StripTags'),
@@ -59,6 +65,34 @@ class Genre implements InputFilterAwareInterface
                         ),
                     ),
                 ),
+            ));
+
+            $inputFilter->add(array(
+                'name'     => 'title',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+            ));
+
+            $inputFilter->add(array(
+                'name'     => 'genre_id',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'Int'),
+                ),
+
             ));
 
             $this->inputFilter = $inputFilter;

@@ -6,17 +6,17 @@
  * Time: 12:17 PM
  */
 
-namespace UserManagement\Form;
+namespace Auth\Form;
 
 use Zend\Form\Form;
 
-class UserForm extends Form
+class AuthForm extends Form
 {
 
     public function __construct($name = null)
     {
         // we want to ignore the name passed
-        parent::__construct('album');
+        parent::__construct('user');
 
         $this->add(array(
             'name' => 'id',
