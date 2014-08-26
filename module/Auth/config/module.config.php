@@ -9,17 +9,23 @@ return array(
     // The following section is new and should be added to your file
     'router' => array(
         'routes' => array(
-            'auth' => array(
-                'type'    => 'segment',
+            'login' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/auth[/][:action][/:id]',
-                    'constraints' => array(
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'id'     => '[0-9]+',
-                    ),
+                    'route'    => '/login',
                     'defaults' => array(
                         'controller' => 'Auth\Controller\Auth',
-                        'action'     => 'index',
+                        'action'     => 'login',
+                    ),
+                ),
+            ),
+            'logout' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/logout',
+                    'defaults' => array(
+                        'controller' => 'Auth\Controller\Auth',
+                        'action'     => 'logout',
                     ),
                 ),
             ),
@@ -32,4 +38,6 @@ return array(
             'auth' => __DIR__ . '/../view',
         ),
     ),
+
+
 );

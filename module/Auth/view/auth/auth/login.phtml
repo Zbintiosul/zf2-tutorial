@@ -1,0 +1,36 @@
+<?php
+
+$title = 'Login';
+$this->headTitle($title);
+?>
+    <h1><?php echo $this->escapeHtml($title); ?></h1>
+<?php
+$form->setAttribute('action', $this->url('login'));
+$form->setAttribute('role', 'form');
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+<div class="form-group">
+    <?php echo $this->formRow($form->get('username')); ?>
+</div>
+<div class="form-group">
+    <?php echo $this->formRow($form->get('password')); ?>
+</div>
+<div class="form-group">
+    <?php echo $this->formRow($form->get('rememberme')); ?>
+</div>
+<?php
+echo $this->formSubmit($form->get('submit'));
+echo $this->form()->closeTag();
+
+
+
+if ($this->messages){
+    echo '<ul>';
+    foreach($this->messages as $message)
+    {
+        echo '<li>'.$message.'</li>';
+    }
+    echo '</ul>';
+}
