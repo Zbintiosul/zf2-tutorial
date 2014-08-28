@@ -8,7 +8,7 @@ return array(
         'Application',
         'Album',
         'UserManagement',
-        'Auth'
+        'Auth',
     ),
 
     // These are various options for the listeners attached to the ModuleManager

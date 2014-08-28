@@ -29,6 +29,16 @@ return array(
                     ),
                 ),
             ),
+            'my-profile' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/my-profile',
+                    'defaults' => array(
+                        'controller' => 'Auth\Controller\Auth',
+                        'action'     => 'myprofile',
+                    ),
+                ),
+            ),
         ),
     ),
 
@@ -38,6 +48,9 @@ return array(
             'auth' => __DIR__ . '/../view',
         ),
     ),
-
-
+    'view_helpers' => array(
+        'invokables' => array(
+            'AuthServiceHelper' => 'Auth\View\Helper\AuthServiceHelper',
+        ),
+    ),
 );

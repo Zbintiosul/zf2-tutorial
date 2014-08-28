@@ -43,9 +43,10 @@
                     </ul>
                     <ul class="nav navbar-nav pull-right" >
                         <?php
-                        //$auth = Zend_Auth::getInstance();
-                        if(0)
+                        if($this->AuthServiceHelper()->hasIdentity())
                         { ?>
+                            <li class=""><div class="welcome-username">Welcome <b><?php  echo $this->AuthServiceHelper()->getIdentity(); ?></b></div></li>
+                            <li class=""><a href="<?php echo $this->url('my-profile') ?>"><?php echo $this->translate('My Profile') ?></a></li>
                             <li class=""><a href="<?php echo $this->url('logout') ?>"><?php echo $this->translate('Logout') ?></a></li>
                         <?php } else { ?>
                             <li class=""><a href="<?php echo $this->url('login') ?>"><?php echo $this->translate('Login') ?></a></li>

@@ -57,10 +57,6 @@ return array(
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
             'Zend\Log\LoggerAbstractServiceFactory',
         ),
-        'aliases' => array(
-            'translator' => 'MvcTranslator',
-            'Zend\Authentication\AuthenticationService' => 'my_auth_service',
-        ),
     ),
 
     'translator' => array(
@@ -75,7 +71,7 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController'
+            'Application\Controller\Index' => 'Application\Controller\IndexController',
         ),
     ),
     'view_manager' => array(
@@ -90,20 +86,6 @@ return array(
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
         ),
-        'AuthService' => function($sm) {
-                //My assumption, you've alredy set dbAdapter
-                //and has users table with columns : user_name and pass_word
-                //that password hashed with md5
-                $dbAdapter           = $sm->get('Zend\Db\Adapter\Adapter');
-                $dbTableAuthAdapter  = new DbTableAuthAdapter($dbAdapter,
-                    'users','username','password', 'MD5(?)');
-
-                $authService = new AuthenticationService();
-                $authService->setAdapter($dbTableAuthAdapter);
-                $authService->setStorage($sm->get('Auth\Model\AppAuthStorage'));
-
-                return $authService;
-            },
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),

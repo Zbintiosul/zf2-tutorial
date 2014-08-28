@@ -58,7 +58,7 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
                         $authService->setStorage($sm->get('Auth\Model\AppAuthStorage'));
 
                         return $authService;
-                    },
+                },
             ),
         );
     }

@@ -51,7 +51,7 @@ class AuthController extends AbstractActionController
         }
 
         $form = new LoginForm();
-        $form->get('submit')->setValue('Add');
+        $form->get('submit')->setValue('Sign In');
 
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -83,6 +83,7 @@ class AuthController extends AbstractActionController
                         $this->getAuthService()->setStorage($this->getSessionStorage());
                     }
                     $this->getAuthService()->getStorage()->write($request->getPost('username'));
+                    return $this->redirect()->toRoute('home');
                 }
             }
         }
@@ -100,6 +101,16 @@ class AuthController extends AbstractActionController
 
         $this->flashmessenger()->addMessage("You've been logged out");
         return $this->redirect()->toRoute('login');
+    }
+
+    public function myprofileAction()
+    {
+        //if already login, redirect to success page
+        if (!$this->getAuthService()->hasIdentity()){
+            return $this->redirect()->toRoute('home');
+        }
+
+
     }
 
 }
