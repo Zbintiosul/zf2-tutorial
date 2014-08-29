@@ -15,15 +15,19 @@ use Zend\InputFilter\InputFilterInterface;
 class User implements InputFilterAwareInterface
 {
     public $id;
-    public $username;
-    public $password;
+    public $email;
+    public $firstname;
+    public $lastname;
     protected $inputFilter;
+
+
 
     public function exchangeArray($data)
     {
-        $this->id        = (!empty($data['id'])) ? $data['id'] : null;
-        $this->username    = (!empty($data['username'])) ? $data['username'] : null;
-        $this->password     = (!empty($data['password'])) ? $data['passwords'] : null;
+        $this->id           = (!empty($data['id'])) ? $data['id'] : null;
+        $this->email        = (!empty($data['email'])) ? $data['email'] : null;
+        $this->firstname    = (!empty($data['firstname'])) ? $data['firstname'] : null;
+        $this->lastname     = (!empty($data['lastname'])) ? $data['lastname'] : null;
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)
@@ -56,8 +60,64 @@ class User implements InputFilterAwareInterface
             ));
 
             $inputFilter->add(array(
+                'name'     => 'email',
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                    array(
+                        'name'    => 'Zend\Validator\EmailAddress',
+                    ),
+                ),
+            ));
+
+            $inputFilter->add(array(
+                'name'     => 'firstname',
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+            ));
+
+            $inputFilter->add(array(
+                'name'     => 'lastname',
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+            ));
+
+            $inputFilter->add(array(
                 'name'     => 'password',
-                'required' => true,
                 'filters'  => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),

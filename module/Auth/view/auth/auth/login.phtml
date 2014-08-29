@@ -2,10 +2,12 @@
 
 $title = 'Login';
 $this->headTitle($title);
+
 ?>
     <h1><?php echo $this->escapeHtml($title); ?></h1>
 <?php
-$form->setAttribute('action', $this->url('login'));
+echo $this->flashMessenger()->render('error', array('alert', 'alert-dismissable', 'alert-danger'));
+$form->setAttribute('action', $this->url('authenticate'));
 $form->setAttribute('role', 'form');
 $form->prepare();
 
@@ -23,17 +25,3 @@ echo $this->form()->openTag($form);
 <?php
 echo $this->formSubmit($form->get('submit'));
 echo $this->form()->closeTag();
-
-
-
-if ($this->messages){
-    echo '<ul>';
-    foreach($this->messages as $message)
-    {
-        echo '<li>'.$message.'</li>';
-    }
-    echo '</ul>';
-}
-//$sm = $this->IsLogged();
-//var_dump($this->IsLogged()->getIdentity());
-//$auth = $this->AuthService->hasIdentity();

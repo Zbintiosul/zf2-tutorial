@@ -10,13 +10,18 @@ namespace Auth\Form;
 
 use Zend\Form\Form;
 
-class LoginForm extends Form
+class UserForm extends Form
 {
 
     public function __construct($name = null)
     {
         // we want to ignore the name passed
-        parent::__construct();
+        parent::__construct('user');
+
+        $this->add(array(
+            'name' => 'id',
+            'type' => 'Hidden',
+        ));
 
         $this->add(array(
             'name' => 'username',
@@ -54,10 +59,46 @@ class LoginForm extends Form
         ));
 
         $this->add(array(
+            'name' => 'email',
+            'type' => 'Zend\Form\Element\Email',
+            'options' => array(
+                'label' => 'Email',
+            ),
+            'attributes' => array(
+                'id' => 'email',
+                'class' => 'form-control',
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'firstname',
+            'type' => 'text',
+            'options' => array(
+                'label' => 'First name',
+            ),
+            'attributes' => array(
+                'id' => 'firstname',
+                'class' => 'form-control',
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'lastname',
+            'type' => 'text',
+            'options' => array(
+                'label' => 'Last name',
+            ),
+            'attributes' => array(
+                'id' => 'lastname',
+                'class' => 'form-control',
+            ),
+        ));
+
+        $this->add(array(
             'name' => 'submit',
             'type' => 'Submit',
             'attributes' => array(
-                'value' => 'Go',
+                'value' => 'Save',
                 'id' => 'submitbutton',
             ),
         ));

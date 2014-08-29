@@ -19,6 +19,16 @@ return array(
                     ),
                 ),
             ),
+            'authenticate' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/authenticate',
+                    'defaults' => array(
+                        'controller' => 'Auth\Controller\Auth',
+                        'action'     => 'authenticate',
+                    ),
+                ),
+            ),
             'logout' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(

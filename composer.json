@@ -14,6 +14,8 @@
         "zendframework/zend-developer-tools": "dev-master"
     },
     "autoload": {
-        "psr-0": { "Album": "module/Album/src/" }
+        "psr-0": { "Album": "module/Album/src/" },
+        "psr-1": { "Auth": "module/Auth/src/" },
+        "psr-2": { "UserManagement": "module/UserManagement/src/" }
     }
 }
