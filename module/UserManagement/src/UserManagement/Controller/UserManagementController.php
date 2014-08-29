@@ -8,29 +8,35 @@
 
 namespace UserManagement\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
-use UserManagement\Model\User;
-use UserManagement\Form\UserForm;
+use Zend\Mvc\Controller\AbstractActionController,
+    Zend\View\Model\ViewModel,
+    Doctrine\ORM\EntityManager,
+    UserManagement\Entity\User;
 
 class UserManagementController extends AbstractActionController
 {
-    protected $userTable;
-    protected $genreTable;
+    /**
+     * @var Doctrine\ORM\EntityManager
+     */
+    protected $em;
 
-    public function getUserTable()
+    public function setEntityManager(EntityManager $em)
     {
-        if (!$this->userTable) {
-            $sm = $this->getServiceLocator();
-            $this->userTable = $sm->get('UserManagement\Model\UserTable');
+        $this->em = $em;
+    }
+
+    public function getEntityManager()
+    {
+        if (null === $this->em) {
+            $this->em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
         }
-        return $this->userTable;
+        return $this->em;
     }
 
     public function indexAction()
     {
         return new ViewModel(array(
-            'users' => $this->getUserTable()->fetchAll(),
+            'users' => $this->getEntityManager()->getRepository('UserManagement\Entity\User')->findAll()
         ));
     }
 

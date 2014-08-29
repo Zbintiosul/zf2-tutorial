@@ -20,7 +20,6 @@
          return $sqlSelect;
      }
 
-
      public function getUser($id)
      {
          $id  = (int) $id;

@@ -11,26 +11,30 @@ $this->headTitle($title);
 ?>
 <h1><?php echo $this->escapeHtml($title); ?></h1>
 <p>
-    <a href="<?php echo $this->url('user-man', array('action'=>'add'));?>">Add new user</a>
+    <a href="<?php echo $this->url('user', array('action'=>'add'));?>">Add new user</a>
 </p>
 
 <table class="table">
     <tr>
-        <th>Title</th>
-        <th>Artist</th>
-        <th>Genre</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Created at</th>
         <th>&nbsp;</th>
     </tr>
-    <?php foreach ($albums as $album) : ?>
+    <?php foreach ($users as $user) : ?>
         <tr>
-            <td><?php echo $this->escapeHtml($album->title);?></td>
-            <td><?php echo $this->escapeHtml($album->artist);?></td>
-            <td><?php echo $this->escapeHtml($album->genre);?></td>
+            <td><?php echo $this->escapeHtml($user->username);?></td>
+            <td><?php echo $this->escapeHtml($user->email);?></td>
+            <td><?php echo $this->escapeHtml($user->firstname);?></td>
+            <td><?php echo $this->escapeHtml($user->lastname);?></td>
+            <td><?php echo $this->escapeHtml($user->created_at);?></td>
             <td>
-                <a href="<?php echo $this->url('album',
-                    array('action'=>'edit', 'id' => $album->id));?>">Edit</a>
-                <a href="<?php echo $this->url('album',
-                    array('action'=>'delete', 'id' => $album->id));?>">Delete</a>
+                <a href="<?php echo $this->url('user',
+                    array('action'=>'edit', 'id' => $user->id));?>">Edit</a>
+                <a href="<?php echo $this->url('user',
+                    array('action'=>'delete', 'id' => $user->id));?>">Delete</a>
             </td>
         </tr>
     <?php endforeach; ?>
