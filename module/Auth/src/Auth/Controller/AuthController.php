@@ -81,11 +81,10 @@ class AuthController extends AbstractActionController
                     ->setCredential($request->getPost('password'));
 
                 $result = $this->getAuthService()->authenticate();
-                foreach($result->getMessages() as $message)
-                {
-                    //save message temporary into flashmessenger
-                    $this->flashmessenger()->addErrorMessage($message);
-                }
+//                foreach($result->getMessages() as $message){
+//                    //save message temporary into flashmessenger
+//                    $this->flashmessenger()->addErrorMessage($message);
+//                }
 
                 if ($result->isValid()) {
                     $redirect = 'home';
@@ -97,6 +96,8 @@ class AuthController extends AbstractActionController
                         $this->getAuthService()->setStorage($this->getSessionStorage());
                     }
                     $this->getAuthService()->getStorage()->write($request->getPost('username'));
+                }else {
+                    $this->flashmessenger()->addErrorMessage("Your username or password is incorrect.");
                 }
             }else
             {
@@ -124,6 +125,7 @@ class AuthController extends AbstractActionController
         }
 
         try {
+            //get user object by username
             $user = $this->getUserTable()->getUserByUsername($this->getAuthService()->getIdentity());
         }
         catch (\Exception $ex) {
@@ -145,7 +147,10 @@ class AuthController extends AbstractActionController
 
                 $user->id = $user_id;
                 $this->getUserTable()->saveMyProfile($user);
+
+                //flash success message to Application layout,phtml
                 $this->flashmessenger()->addSuccessMessage("Data saved successfully");
+
                 // Redirect to list of albums
                 return $this->redirect()->toRoute('my-profile');
             }else

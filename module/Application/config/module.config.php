@@ -97,4 +97,37 @@ return array(
             ),
         ),
     ),
+    'navigation' => array(
+        'default' => array(
+            array(
+                'label' => 'Home',
+                'route' => 'home',
+            ),
+            array(
+                'label' => 'Genre',
+                'route' => 'genre',
+                'pages' => array(
+                    array(
+                        'label' => 'Add',
+                        'route' => 'genre',
+                        'action' => 'add',
+                    ),
+                    array(
+                        'label' => 'Edit',
+                        'route' => 'genre',
+                        'action' => 'edit',
+                    ),
+                    array(
+                        'label' => 'Delete',
+                        'route' => 'genre',
+                        'action' => 'delete',
+                    ),
+                ),
+            ),
+            array(
+                'label' => 'User Management',
+                'route' => 'user-man',
+            ),
+        ),
+    ),
 );

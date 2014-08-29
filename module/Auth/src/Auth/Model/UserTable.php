@@ -3,7 +3,6 @@
  namespace Auth\Model;
 
  use Zend\Db\TableGateway\TableGateway;
- use Zend\I18n\Validator\DateTime;
 
  class UserTable
  {
@@ -12,14 +11,6 @@
      public function __construct(TableGateway $tableGateway)
      {
          $this->tableGateway = $tableGateway;
-         $this->table = 'users';
-     }
-
-     public function fetchAll(Array $columns = array('id','username', 'firstname', 'lastname'))
-     {
-         $sqlSelect = $this->tableGateway->select();
-
-         return $sqlSelect;
      }
 
 
@@ -46,17 +37,18 @@
 
      public function saveUser(User $user,Array $data)
      {
+         $now = new \DateTime();
          if (empty($data['updated_at'])){
-             $now = new \DateTime();
              $data['updated_at'] = $now->format('Y-m-d H:i:s');
          }
 
          $id = (int) $user->id;
          if ($id == 0) {
+
              $this->tableGateway->insert($data);
          } else {
              if ($this->getUser($id)) {
-
+                 $data['created_at'] = $now->format('Y-m-d H:i:s');
                  $this->tableGateway->update($data, array('id' => $id));
 
              } else {
@@ -81,8 +73,4 @@
          }
      }
 
-     public function deleteUser($id)
-     {
-         $this->tableGateway->delete(array('id' => (int) $id));
-     }
  }
