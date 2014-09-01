@@ -4,31 +4,27 @@ $this->headTitle($title);
 ?>
 <h1><?php echo $this->escapeHtml($title); ?></h1>
 <p>
-    <a href="<?php echo $this->url('user', array('action'=>'add'));?>" class="btn btn-sm btn-success">Add new user</a>
+    <a href="<?php echo $this->url('role', array('action'=>'add'));?>" class="btn btn-sm btn-success">Add new role</a>
 </p>
 
 <table class="table  table-striped">
     <tr>
         <th>Name</th>
-        <th>Email</th>
-        <th>First name</th>
-        <th>Last name</th>
         <th>Created at</th>
+        <th>Last update</th>
         <th>&nbsp;</th>
     </tr>
-    <?php foreach ($users as $user) : ?>
+    <?php foreach ($roles as $role) : ?>
         <tr>
-            <td><?php echo $this->escapeHtml($user->username);?></td>
-            <td><?php echo $this->escapeHtml($user->email);?></td>
-            <td><?php echo $this->escapeHtml($user->firstname);?></td>
-            <td><?php echo $this->escapeHtml($user->lastname);?></td>
-            <td><?php echo $this->escapeHtml($user->created_at);?></td>
+            <td><?php echo $this->escapeHtml($role->name);?></td>
+            <td><?php echo $this->escapeHtml($role->created_at);?></td>
+            <td><?php echo $this->escapeHtml($role->updated_at);?></td>
 
             <td align="right">
-                <a href="<?php echo $this->url('user',
-                    array('action'=>'edit', 'id' => $user->id));?>" class="btn btn-sm btn-default">Edit</a>
-                <a href="<?php echo $this->url('user',
-                    array('action'=>'delete', 'id' => $user->id));?>" class="btn btn-sm btn-danger">Delete</a>
+                <a href="<?php echo $this->url('role',
+                    array('action'=>'edit', 'id' => $role->id));?>" class="btn btn-sm btn-default">Edit</a>
+                <a href="<?php echo $this->url('role',
+                    array('action'=>'delete', 'id' => $role->id));?>" class="btn btn-sm btn-danger">Delete</a>
             </td>
         </tr>
     <?php endforeach; ?>

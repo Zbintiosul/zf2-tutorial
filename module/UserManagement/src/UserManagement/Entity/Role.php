@@ -83,6 +83,9 @@ class Role implements InputFilterAwareInterface
 
         if (!empty($data['name']))
         $this->name =  $data['name'];
+
+        $now = new \DateTime();
+        $this->updated_at = $now->format('Y-m-d H:i:s');
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)

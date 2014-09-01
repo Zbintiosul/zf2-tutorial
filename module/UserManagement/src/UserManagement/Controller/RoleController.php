@@ -10,9 +10,9 @@ namespace UserManagement\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController,
     Zend\View\Model\ViewModel,
-    UserManagement\Form\UserForm,
+    UserManagement\Form\RoleForm,
     Doctrine\ORM\EntityManager,
-    UserManagement\Entity\User;
+    UserManagement\Entity\Role;
 
 class RoleController extends AbstractActionController
 {
@@ -34,44 +34,39 @@ class RoleController extends AbstractActionController
         return $this->em;
     }
 
-    public function getUserEntity()
-    {
-        return $this->getEntityManager()->getRepository('UserManagement\Entity\User');
-    }
-
     public function indexAction()
     {
         return new ViewModel(array(
-            'users' => $this->getEntityManager()->getRepository('UserManagement\Entity\User')->findAll()
+            'roles' => $this->getEntityManager()->getRepository('UserManagement\Entity\Role')->findAll()
         ));
     }
 
     public function addAction()
     {
 
-        $form = new UserForm();
+        $form = new RoleForm();
 
         //$form->get('genre_id')->setValueOptions($this->getGenreTable()->getSelectArrayGenres());
         $form->get('submit')->setValue('Add');
 
         $request = $this->getRequest();
         if ($request->isPost()) {
-            $user = new User();
+            $role = new Role();
 
-            $form->setInputFilter($user->getInputFilter());
+            $form->setInputFilter($role->getInputFilter());
 
-            $form->setValidationGroup('username', 'password', 'password_verify', 'email', 'firstname', 'lastname');
+            $form->setValidationGroup('name');
 
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
-                $user->populate($form->getData());
-                $this->getEntityManager()->persist($user);
+                $role->populate($form->getData());
+                $this->getEntityManager()->persist($role);
 
                 $this->getEntityManager()->flush();
 
                 // Redirect to list of users
-                return $this->redirect()->toRoute('user-man');
+                return $this->redirect()->toRoute('role');
             }
         }
         return array('form' => $form);
@@ -81,7 +76,7 @@ class RoleController extends AbstractActionController
     {
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('user-man', array(
+            return $this->redirect()->toRoute('role', array(
                 'action' => 'add'
             ));
         }
@@ -89,35 +84,33 @@ class RoleController extends AbstractActionController
         // Get the User with the specified id.  An exception is thrown
         // if it cannot be found, in which case go to the index page.
         try {
-            $user = $this->getEntityManager()->find('UserManagement\Entity\User', $id);
+            $role = $this->getEntityManager()->find('UserManagement\Entity\Role', $id);
         }
         catch (\Exception $ex) {
-            return $this->redirect()->toRoute('user-man', array(
+            return $this->redirect()->toRoute('role', array(
                 'action' => 'index'
             ));
         }
-        $userIni = $user;
         //die(print_r($user));
-        $form = new UserForm();
+        $form = new RoleForm();
         $form->setBindOnValidate(false);
-        $form->bind($user);
+        $form->bind($role);
         $form->get('submit')->setAttribute('label', 'Edit');
 
         $request = $this->getRequest();
         if ($request->isPost()) {
 
-            $form->setValidationGroup('email', 'firstname', 'lastname');
-            $form->setInputFilter($user->getInputFilter());
+            $form->setValidationGroup('name');
+            $form->setInputFilter($role->getInputFilter());
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
 
                 $form->bindValues();
-                $user->updatedTimestamps();
                 $this->getEntityManager()->flush();
 
                 // Redirect to list of albums
-                return $this->redirect()->toRoute('user-man');
+                return $this->redirect()->toRoute('role');
             }
         }
 
@@ -131,7 +124,7 @@ class RoleController extends AbstractActionController
     {
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('user-man');
+            return $this->redirect()->toRoute('role');
         }
 
         $request = $this->getRequest();
@@ -140,20 +133,20 @@ class RoleController extends AbstractActionController
 
             if ($del == 'Yes') {
                 $id = (int) $request->getPost('id');
-                $user = $this->getEntityManager()->find('UserManagement\Entity\User', $id);
+                $role = $this->getEntityManager()->find('UserManagement\Entity\Role', $id);
 
-                $this->getEntityManager()->remove($user);
+                $this->getEntityManager()->remove($role);
 
                 $this->getEntityManager()->flush();
             }
 
             // Redirect to list of albums
-            return $this->redirect()->toRoute('user-man');
+            return $this->redirect()->toRoute('role');
         }
 
         return array(
             'id'    => $id,
-            'user' => $this->getEntityManager()->find('UserManagement\Entity\User', $id),
+            'role' => $this->getEntityManager()->find('UserManagement\Entity\Role', $id),
         );
     }
 }
