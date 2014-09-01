@@ -4,12 +4,11 @@ namespace UserManagement;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use UserManagement\Model\User;
-use UserManagement\Model\UserTable;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
+use DoctrineModule\Persistence\ObjectManagerAwareInterface;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 {
@@ -40,6 +39,22 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 
             'factories' => array(
 
+            ),
+        );
+    }
+
+    public function getFormElementConfig()
+    {
+        return array(
+            'initializers' => array(
+                'ObjectManagerInitializer' => function ($element, $formElements) {
+                        if ($element instanceof ObjectManagerAwareInterface) {
+                            $services      = $formElements->getServiceLocator();
+                            $entityManager = $services->get('Doctrine\ORM\EntityManager');
+
+                            $element->setObjectManager($entityManager);
+                        }
+                    },
             ),
         );
     }

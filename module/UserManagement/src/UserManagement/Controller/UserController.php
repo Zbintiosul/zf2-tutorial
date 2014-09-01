@@ -159,4 +159,54 @@ class UserController extends AbstractActionController
             'user' => $this->getEntityManager()->find('UserManagement\Entity\User', $id),
         );
     }
+
+
+    public function rolesAction()
+    {
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('user', array(
+                'action' => 'add'
+            ));
+        }
+
+        // Get the User with the specified id.  An exception is thrown
+        // if it cannot be found, in which case go to the index page.
+        try {
+            $user = $this->getEntityManager()->find('UserManagement\Entity\User', $id);
+        }
+        catch (\Exception $ex) {
+            return $this->redirect()->toRoute('user', array(
+                'action' => 'index'
+            ));
+        }
+        $forms = $this->getServiceLocator()->get('FormElementManager');
+        $form = $forms->get('UserManagement\Form\UserForm');
+       // $form = new UserForm();
+        // $form->setBindOnValidate(false);
+        $form->bind($user);
+        $form->get('submit')->setAttribute('label', 'Edit');
+
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+
+            $form->setValidationGroup('roles');
+
+            $form->setInputFilter($user->getInputFilter());
+            $form->setData($request->getPost());
+
+            if ($form->isValid()) {
+
+                //$form->bindValues();
+                $this->getEntityManager()->flush();
+
+                return $this->redirect()->toRoute('user');
+            }
+        }
+
+        return array(
+            'id' => $id,
+            'form' => $form,
+        );
+    }
 }

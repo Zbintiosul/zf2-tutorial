@@ -9,9 +9,12 @@
 namespace UserManagement\Form;
 
 use Zend\Form\Form;
+use DoctrineModule\Persistence\ObjectManagerAwareInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
-class UserForm extends Form
+class UserForm extends Form implements ObjectManagerAwareInterface
 {
+    protected $objectManager;
 
     public function __construct($name = null)
     {
@@ -106,6 +109,22 @@ class UserForm extends Form
             ),
         ));
 
+        $this->add(
+            array(
+                'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+                'name' => 'name',
+                'options' => array(
+                    'object_manager' => $this->getObjectManager(),
+                    'target_class'   => 'Module\Entity\Role',
+                    'property'       => 'ComposedOfSeveralProperties',
+                    'is_method'      => true,
+                    'find_method'    => array(
+                        'name'   => 'findAll',
+                    ),
+                ),
+            )
+        );
+
 //        $this->add(array(
 //            'type' => 'Zend\Form\Element\DateTime',
 //            'name' => 'updated_at',
@@ -147,5 +166,36 @@ class UserForm extends Form
                 'class' => 'btn btn-primary',
             ),
         ));
+    }
+
+
+
+    public function init()
+    {
+        $this->add(
+            array(
+                'type' => 'DoctrineModule\Form\Element\ObjectSelect',
+                'name' => 'name',
+                'options' => array(
+                    'object_manager' => $this->getObjectManager(),
+                    'target_class'   => 'Module\Entity\Role',
+                    'property'       => 'ComposedOfSeveralProperties',
+                    'is_method'      => true,
+                    'find_method'    => array(
+                        'name'   => 'findAll',
+                    ),
+                ),
+            )
+        );
+    }
+
+    public function setObjectManager(ObjectManager $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
+
+    public function getObjectManager()
+    {
+        return $this->objectManager;
     }
 }

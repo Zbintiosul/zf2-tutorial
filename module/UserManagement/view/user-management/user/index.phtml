@@ -13,6 +13,7 @@ $this->headTitle($title);
         <th>Email</th>
         <th>First name</th>
         <th>Last name</th>
+        <th>Roles</th>
         <th>Created at</th>
         <th>Last Update at</th>
         <th>&nbsp;</th>
@@ -23,9 +24,17 @@ $this->headTitle($title);
             <td><?php echo $this->escapeHtml($user->email);?></td>
             <td><?php echo $this->escapeHtml($user->firstname);?></td>
             <td><?php echo $this->escapeHtml($user->lastname);?></td>
+            <td>
+                <?php
+                    foreach($user->roles as $role)
+                        echo $role->name.'<br>';
+                ?>
+            </td>
             <td><?php echo $this->escapeHtml($user->created_at);?></td>
             <td><?php echo $this->escapeHtml($user->updated_at);?></td>
             <td align="right">
+                <a href="<?php echo $this->url('user',
+                    array('action'=>'roles', 'id' => $user->id));?>" class="btn btn-sm btn-default">Roles</a>
                 <a href="<?php echo $this->url('user',
                     array('action'=>'edit', 'id' => $user->id));?>" class="btn btn-sm btn-default">Edit</a>
                 <a href="<?php echo $this->url('user',

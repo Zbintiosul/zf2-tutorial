@@ -57,11 +57,24 @@ class User implements InputFilterAwareInterface
      */
     protected $lastname;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Role")
+     * @ORM\JoinTable(name="user_roles",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
+     *      )
+     **/
+    private $roles;
+
     /** @ORM\Column(name="created_at", type="string", length=255) */
     protected $created_at;
 
     /** @ORM\Column(name="updated_at", type="string", length=255) */
     protected $updated_at;
+
+    public function __construct() {
+        $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Magic getter to expose protected properties.
