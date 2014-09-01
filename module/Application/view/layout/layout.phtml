@@ -63,9 +63,29 @@
         </nav>
         <div class="container">
             <?php
+                $submenu = $this->navigation('navigation')
+                        ->menu()
+                        ->setOnlyActiveBranch(true)
+                        ->setRenderParents(false)
+                        ->setMinDepth(1)
+                        ->setMaxDepth(1)
+                        ->setUlClass('nav navbar-nav');
+                if ($submenu!='') {
+            ?>
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="container-fluid">
+
+                        <div class="collapse navbar-collapse">
+                            <?php
+                            echo $submenu;
+                            ?>
+                        </div>
+                    </div><!-- /.container-fluid -->
+                </nav>
+                <?php } ?>
+            <?php
                 echo $this->flashMessenger()->render('success', array('alert', 'alert-dismissable', 'alert-success'));
                 echo $this->content;
-
             ?>
             <hr>
             <footer>

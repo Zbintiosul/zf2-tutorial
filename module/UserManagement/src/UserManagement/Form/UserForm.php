@@ -106,37 +106,37 @@ class UserForm extends Form
             ),
         ));
 
-        $this->add(array(
-            'type' => 'Zend\Form\Element\DateTime',
-            'name' => 'updated_at',
-            'options' => array(
-                'label' => 'Updated at',
-                'format' => 'Y-m-d\TH:iP'
-            ),
-            'attributes' => array(
-                'min' => '2010-01-01T00:00:00Z',
-                'max' => '2020-01-01T00:00:00Z',
-                'step' => '1', // minutes; default step interval is 1 min
-                'id' => 'updated_at',
-                'class' => 'form-control',
-            ),
-        ));
-
-        $this->add(array(
-            'type' => 'Zend\Form\Element\DateTime',
-            'name' => 'created_at',
-            'options' => array(
-                'label' => 'Created at',
-                'format' => 'Y-m-d\TH:iP'
-            ),
-            'attributes' => array(
-                'min' => '2010-01-01T00:00:00Z',
-                'max' => '2020-01-01T00:00:00Z',
-                'step' => '1', // minutes; default step interval is 1 min
-                'id' => 'created_at',
-                'class' => 'form-control',
-            ),
-        ));
+//        $this->add(array(
+//            'type' => 'Zend\Form\Element\DateTime',
+//            'name' => 'updated_at',
+//            'options' => array(
+//                'label' => 'Updated at',
+//                'format' => 'Y-m-d\TH:iP'
+//            ),
+//            'attributes' => array(
+//                'min' => '2010-01-01T00:00:00Z',
+//                'max' => '2020-01-01T00:00:00Z',
+//                'step' => '1', // minutes; default step interval is 1 min
+//                'id' => 'updated_at',
+//                'class' => 'form-control',
+//            ),
+//        ));
+//
+//        $this->add(array(
+//            'type' => 'Zend\Form\Element\DateTime',
+//            'name' => 'created_at',
+//            'options' => array(
+//                'label' => 'Created at',
+//                'format' => 'Y-m-d\TH:iP'
+//            ),
+//            'attributes' => array(
+//                'min' => '2010-01-01T00:00:00Z',
+//                'max' => '2020-01-01T00:00:00Z',
+//                'step' => '1', // minutes; default step interval is 1 min
+//                'id' => 'created_at',
+//                'class' => 'form-control',
+//            ),
+//        ));
 
         $this->add(array(
             'name' => 'submit',

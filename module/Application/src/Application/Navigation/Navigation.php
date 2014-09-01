@@ -68,6 +68,8 @@ class Navigation extends DefaultNavigationFactory
             $config = $serviceLocator->get('Config');
             $navigation = $config['navigation']['default'];
 
+
+
             $routeMatch  = $mvcEvent->getRouteMatch();
             $router      = $mvcEvent->getRouter();
             $pages       = $this->getPagesFromConfig($navigation);

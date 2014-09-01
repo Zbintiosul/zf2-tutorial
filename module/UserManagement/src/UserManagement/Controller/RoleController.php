@@ -14,7 +14,7 @@ use Zend\Mvc\Controller\AbstractActionController,
     Doctrine\ORM\EntityManager,
     UserManagement\Entity\User;
 
-class UserController extends AbstractActionController
+class RoleController extends AbstractActionController
 {
     /**
      * @var Doctrine\ORM\EntityManager
@@ -58,11 +58,7 @@ class UserController extends AbstractActionController
         if ($request->isPost()) {
             $user = new User();
 
-            $filter = $user->getInputFilter();
-            $filter->add($user->getEmailDBInputFilter($this->getEntityManager()));
-            $filter->add($user->getUserNameDBInputFilter($this->getEntityManager()));
-            $form->setInputFilter($filter);
-
+            $form->setInputFilter($user->getInputFilter());
 
             $form->setValidationGroup('username', 'password', 'password_verify', 'email', 'firstname', 'lastname');
 
@@ -75,7 +71,7 @@ class UserController extends AbstractActionController
                 $this->getEntityManager()->flush();
 
                 // Redirect to list of users
-                return $this->redirect()->toRoute('user');
+                return $this->redirect()->toRoute('user-man');
             }
         }
         return array('form' => $form);
@@ -85,7 +81,7 @@ class UserController extends AbstractActionController
     {
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('user', array(
+            return $this->redirect()->toRoute('user-man', array(
                 'action' => 'add'
             ));
         }
@@ -96,13 +92,14 @@ class UserController extends AbstractActionController
             $user = $this->getEntityManager()->find('UserManagement\Entity\User', $id);
         }
         catch (\Exception $ex) {
-            return $this->redirect()->toRoute('user', array(
+            return $this->redirect()->toRoute('user-man', array(
                 'action' => 'index'
             ));
         }
-
+        $userIni = $user;
+        //die(print_r($user));
         $form = new UserForm();
-       // $form->setBindOnValidate(false);
+        $form->setBindOnValidate(false);
         $form->bind($user);
         $form->get('submit')->setAttribute('label', 'Edit');
 
@@ -110,17 +107,17 @@ class UserController extends AbstractActionController
         if ($request->isPost()) {
 
             $form->setValidationGroup('email', 'firstname', 'lastname');
-            $filter = $user->getInputFilter();
-            $filter->add($user->getEmailDBInputFilter($this->getEntityManager()));
-            $form->setInputFilter($filter);
+            $form->setInputFilter($user->getInputFilter());
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
 
-                    //$form->bindValues();
-                    $this->getEntityManager()->flush();
+                $form->bindValues();
+                $user->updatedTimestamps();
+                $this->getEntityManager()->flush();
 
-                    return $this->redirect()->toRoute('user');
+                // Redirect to list of albums
+                return $this->redirect()->toRoute('user-man');
             }
         }
 
@@ -134,7 +131,7 @@ class UserController extends AbstractActionController
     {
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('user');
+            return $this->redirect()->toRoute('user-man');
         }
 
         $request = $this->getRequest();
@@ -151,7 +148,7 @@ class UserController extends AbstractActionController
             }
 
             // Redirect to list of albums
-            return $this->redirect()->toRoute('user');
+            return $this->redirect()->toRoute('user-man');
         }
 
         return array(

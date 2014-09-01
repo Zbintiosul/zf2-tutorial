@@ -106,27 +106,29 @@ return array(
             array(
                 'label' => 'Genre',
                 'route' => 'genre',
-                'pages' => array(
-                    array(
-                        'label' => 'Add',
-                        'route' => 'genre',
-                        'action' => 'add',
-                    ),
-                    array(
-                        'label' => 'Edit',
-                        'route' => 'genre',
-                        'action' => 'edit',
-                    ),
-                    array(
-                        'label' => 'Delete',
-                        'route' => 'genre',
-                        'action' => 'delete',
-                    ),
-                ),
             ),
             array(
                 'label' => 'User Management',
-                'route' => 'user-man',
+                'route' => 'user',
+                'pages' => array(
+                    array(
+                        'label' => 'Users',
+                        'route' => 'user',
+                    ),
+                    array(
+                        'label' => 'Roles',
+                        'route' => 'role',
+                    ),
+                    array(
+                        'label' => 'Rights',
+                        'route' => 'right',
+                    ),
+
+                ),
+                'params'       => array(
+                    'class' => 'dropdown-menu',
+                    'role'     => 'menu',
+                )
             ),
         ),
     ),
