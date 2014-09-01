@@ -67,6 +67,7 @@ class UserController extends AbstractActionController
             if ($form->isValid()) {
                 $user->populate($form->getData());
                 $this->getEntityManager()->persist($user);
+
                 $this->getEntityManager()->flush();
 
                 // Redirect to list of users
@@ -95,24 +96,24 @@ class UserController extends AbstractActionController
                 'action' => 'index'
             ));
         }
-        die(print_r($user));
+        $userIni = $user;
+        //die(print_r($user));
         $form = new UserForm();
-        //$form->setBindOnValidate(false);
+        $form->setBindOnValidate(false);
         $form->bind($user);
         $form->get('submit')->setAttribute('label', 'Edit');
 
         $request = $this->getRequest();
         if ($request->isPost()) {
 
-            $form->setInputFilter($user->getInputFilter());
-
             $form->setValidationGroup('email', 'firstname', 'lastname');
-
+            $form->setInputFilter($user->getInputFilter());
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
 
                 $form->bindValues();
+                $user->updatedTimestamps();
                 $this->getEntityManager()->flush();
 
                 // Redirect to list of albums
@@ -130,7 +131,7 @@ class UserController extends AbstractActionController
     {
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('album');
+            return $this->redirect()->toRoute('user-man');
         }
 
         $request = $this->getRequest();
@@ -139,16 +140,20 @@ class UserController extends AbstractActionController
 
             if ($del == 'Yes') {
                 $id = (int) $request->getPost('id');
-                $this->getAlbumTable()->deleteAlbum($id);
+                $user = $this->getEntityManager()->find('UserManagement\Entity\User', $id);
+
+                $this->getEntityManager()->remove($user);
+
+                $this->getEntityManager()->flush();
             }
 
             // Redirect to list of albums
-            return $this->redirect()->toRoute('album');
+            return $this->redirect()->toRoute('user-man');
         }
 
         return array(
             'id'    => $id,
-            'album' => $this->getAlbumTable()->getAlbum($id)
+            'user' => $this->getEntityManager()->find('UserManagement\Entity\User', $id),
         );
     }
 }

@@ -11,10 +11,10 @@ $this->headTitle($title);
 ?>
 <h1><?php echo $this->escapeHtml($title); ?></h1>
 <p>
-    <a href="<?php echo $this->url('user', array('action'=>'add'));?>">Add new user</a>
+    <a href="<?php echo $this->url('user', array('action'=>'add'));?>" class="btn btn-sm btn-success">Add new user</a>
 </p>
 
-<table class="table">
+<table class="table  table-striped">
     <tr>
         <th>Username</th>
         <th>Email</th>
@@ -30,11 +30,11 @@ $this->headTitle($title);
             <td><?php echo $this->escapeHtml($user->firstname);?></td>
             <td><?php echo $this->escapeHtml($user->lastname);?></td>
             <td><?php echo $this->escapeHtml($user->created_at);?></td>
-            <td>
+            <td align="right">
                 <a href="<?php echo $this->url('user',
-                    array('action'=>'edit', 'id' => $user->id));?>">Edit</a>
+                    array('action'=>'edit', 'id' => $user->id));?>" class="btn btn-sm btn-default">Edit</a>
                 <a href="<?php echo $this->url('user',
-                    array('action'=>'delete', 'id' => $user->id));?>">Delete</a>
+                    array('action'=>'delete', 'id' => $user->id));?>" class="btn btn-sm btn-danger">Delete</a>
             </td>
         </tr>
     <?php endforeach; ?>

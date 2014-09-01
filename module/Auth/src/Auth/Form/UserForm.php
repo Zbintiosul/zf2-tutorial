@@ -100,6 +100,7 @@ class UserForm extends Form
             'attributes' => array(
                 'value' => 'Save',
                 'id' => 'submitbutton',
+                'class' => 'btn btn-primary',
             ),
         ));
     }

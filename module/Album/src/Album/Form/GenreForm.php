@@ -34,6 +34,7 @@ class GenreForm extends Form
             'attributes' => array(
                 'value' => 'Go',
                 'id' => 'submitbutton',
+                'class' => 'btn btn-primary',
             ),
         ));
     }

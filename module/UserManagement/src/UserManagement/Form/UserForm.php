@@ -107,12 +107,16 @@ class UserForm extends Form
         ));
 
         $this->add(array(
+            'type' => 'Zend\Form\Element\DateTime',
             'name' => 'updated_at',
-            'type' => 'text',
             'options' => array(
-                'label' => 'Last Update',
+                'label' => 'Updated at',
+                'format' => 'Y-m-d\TH:iP'
             ),
             'attributes' => array(
+                'min' => '2010-01-01T00:00:00Z',
+                'max' => '2020-01-01T00:00:00Z',
+                'step' => '1', // minutes; default step interval is 1 min
                 'id' => 'updated_at',
                 'class' => 'form-control',
             ),
@@ -140,6 +144,7 @@ class UserForm extends Form
             'attributes' => array(
                 'value' => 'Save',
                 'id' => 'submitbutton',
+                'class' => 'btn btn-primary',
             ),
         ));
     }
