@@ -39,17 +39,7 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
             'aliases' => array(),
 
             'factories' => array(
-                'UserManagement\Model\UserTable' =>  function($sm) {
-                        $tableGateway = $sm->get('UserTableGateway');
-                        $table = new UserTable($tableGateway);
-                        return $table;
-                    },
-                'UserTableGateway' => function ($sm) {
-                        $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
-                        $resultSetPrototype = new ResultSet();
-                        $resultSetPrototype->setArrayObjectPrototype(new User());
-                        return new TableGateway('user', $dbAdapter, null, $resultSetPrototype);
-                    },
+
             ),
         );
     }

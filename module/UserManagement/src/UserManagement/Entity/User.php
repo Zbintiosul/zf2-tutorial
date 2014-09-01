@@ -12,7 +12,6 @@ use Zend\InputFilter\InputFilterInterface;
  * A music album.
  *
  * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="users")
  * @property string $username
  * @property string $password
@@ -86,6 +85,10 @@ class User implements InputFilterAwareInterface
         $this->$property = $value;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
     /**
      * Convert the object to an array.
      *
@@ -94,45 +97,6 @@ class User implements InputFilterAwareInterface
     public function getArrayCopy()
     {
         return get_object_vars($this);
-    }
-
-    /**
-     *
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     *
-     */
-    public function updatedTimestamps()
-    {
-        $this->setUpdatedAt(new \DateTime('now'));
-
-        if ($this->getCreatedAt() == null) {
-            $this->setCreatedAt(new \DateTime('now'));
-        }
-    }
-
-    public function setUpdatedAt($now)
-    {
-        // WILL be saved in the database
-        $this->updated_at = $now->format('Y-m-d H:i:s');
-    }
-
-    public function setCreatedAt($now)
-    {
-        // WILL be saved in the database
-        $this->created_at = $now->format('Y-m-d H:i:s');
-    }
-
-    public function getCreatedAt()
-    {
-        // WILL be saved in the database
-        $this->created_at;
-    }
-
-    public function setUsernameAndPassword($username,$password)
-    {
-        $this->username = $username;
-        $this->password = $password;
     }
 
     /**
@@ -159,14 +123,93 @@ class User implements InputFilterAwareInterface
 
         if (!empty($data['lastname']))
         $this->lastname = $data['lastname'];
-        //$this->setUpdated();
 
-       // $this->updated_at = date('Y-m-d H:m:s');
+        $now = new \DateTime();
+        $this->updated_at = $now->format('Y-m-d H:i:s');
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)
     {
         throw new \Exception("Not used");
+    }
+
+    public function getEmailDBInputFilter($entityManager)
+    {
+       return array(
+            'name'     => 'email',
+            'required' => true,
+            'filters'  => array(
+                array('name' => 'StripTags'),
+                array('name' => 'StringTrim'),
+            ),
+            'validators' => array(
+                array(
+                    'name'    => 'Zend\Validator\EmailAddress',
+                    'options' => array(
+                        'encoding' => 'UTF-8',
+                        'min'      => 5,
+                        'max'      => 255,
+                        'messages' => array(
+                            \Zend\Validator\EmailAddress::INVALID_FORMAT => 'Email address format is invalid'
+                        )
+                    ),
+                ),
+                array(
+                    'name' => 'UserManagement\Validator\NoObjectExists',
+                    'options' => array(
+                        'object_repository' => $entityManager->getRepository('UserManagement\Entity\User'),
+                        'fields' => 'email',
+                        'exclude' => array(
+                            'field' => 'id',
+                            'value' => $this->id,
+                        ),
+                        'messages' => array(
+                            'objectFound' => 'Sorry, an user with this email already exists !'
+                        ),
+                    ),
+                )
+
+            ),
+        );
+
+    }
+
+    public function getUserNameDBInputFilter($entityManager)
+    {
+        return array(
+            'name'     => 'username',
+            'required' => true,
+            'filters'  => array(
+                array('name' => 'StripTags'),
+                array('name' => 'StringTrim'),
+            ),
+            'validators' => array(
+                array(
+                    'name'    => 'StringLength',
+                    'options' => array(
+                        'encoding' => 'UTF-8',
+                        'min'      => 1,
+                        'max'      => 100,
+                    ),
+                ),
+                array(
+                    'name' => 'UserManagement\Validator\NoObjectExists',
+                    'options' => array(
+                        'object_repository' => $entityManager->getRepository('UserManagement\Entity\User'),
+                        'fields' => 'username',
+                        'exclude' => array(
+                            'field' => 'id',
+                            'value' => $this->id,
+                        ),
+                        'messages' => array(
+                            'objectFound' => 'Sorry, an user with this username already exists !'
+                        ),
+                    ),
+                )
+
+            ),
+        );
+
     }
 
     public function getInputFilter()
@@ -222,6 +265,7 @@ class User implements InputFilterAwareInterface
                             )
                         ),
                     ),
+
                 ),
             ));
 

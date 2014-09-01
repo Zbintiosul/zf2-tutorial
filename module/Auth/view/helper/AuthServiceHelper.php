@@ -5,7 +5,7 @@
  * Date: 8/28/14
  * Time: 12:14 PM
  */
-namespace Auth\View\Helper;;
+namespace Auth\View\Helper;
 
 use Zend\View\Helper\AbstractHelper,
     Zend\ServiceManager\ServiceLocatorAwareInterface;

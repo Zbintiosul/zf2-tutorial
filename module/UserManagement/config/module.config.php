@@ -7,26 +7,14 @@ return array(
         'invokables' => array(
             'UserManagement\Controller\UserManagement' => 'UserManagement\Controller\UserManagementController',
             'UserManagement\Controller\User' => 'UserManagement\Controller\UserController',
+            'UserManagement\Controller\Role' => 'UserManagement\Controller\RoleController',
+            'UserManagement\Controller\Right' => 'UserManagement\Controller\RightController',
         ),
     ),
 
     // The following section is new and should be added to your file
     'router' => array(
         'routes' => array(
-            'user-man' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/user-man[/][:action][/:id]',
-                    'constraints' => array(
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'UserManagement\Controller\UserManagement',
-                        'action'     => 'index',
-                    ),
-                ),
-            ),
             'user' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -37,6 +25,34 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'UserManagement\Controller\User',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+            'role' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/role[/][:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'UserManagement\Controller\Role',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+            'right' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/right[/][:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'UserManagement\Controller\Right',
                         'action'     => 'index',
                     ),
                 ),
@@ -64,5 +80,6 @@ return array(
                 )
             )
         )
-    )
+    ),
+
 );
